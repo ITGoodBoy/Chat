@@ -1,6 +1,9 @@
 package client;
 
-
+import client.bot_client.BotClient;
+import client.console_client.ConsoleClient;
+import client.gui_client.AdminGuiController;
+import client.gui_client.ClientGuiController;
 import common.Connection;
 
 import java.io.IOException;
@@ -32,9 +35,12 @@ public abstract class AbstractClient {
 
         switch (type)
         {
-
+            case CONSOLE_CLIENT: return new ConsoleClient();
+            case BOT_CLIENT: return new BotClient();
+            case GUI_CLIENT: return new ClientGuiController();
+            case ADMIN_CLIENT: return new AdminGuiController();
+            default:return new ConsoleClient();
         }
-        return null;
     }
 
     public Connection getConnection() {
@@ -63,7 +69,7 @@ public abstract class AbstractClient {
 
     protected abstract class AbstractServerHandler extends Thread
     {
-        //handshake with server - sends a new username
+        //handshake with server -sends a new username
         public abstract void clientHandshake(Connection connection) throws IOException;
         public abstract void processIncomingMessage(String message);
         //Server processes messages
